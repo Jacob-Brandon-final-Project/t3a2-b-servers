@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
+
 
 async function databaseConnect() {
     try {
         // Database connection can take time
-        await mongoose.connect('process.env.DB_URI', {
+        await mongoose.connect(process.env.DB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
