@@ -3,10 +3,12 @@ const Schema = mongoose.Schema;
 const { isEmail } = require('validator');
 
 const UserSchema = new Schema({
+    // Name of the user
     name: {
         type: String,
         required: true
     },
+    // Email of the user
     email: {
         type: String,
         required: [true, 'Please enter an email'],
@@ -14,6 +16,7 @@ const UserSchema = new Schema({
         lowercase: true,
         validate: [isEmail, 'Please enter a valid email']
     },
+    // Password of the user
     password: {
         type: String,
         required: [true, 'Please enter a valid password'],
@@ -27,18 +30,21 @@ const UserSchema = new Schema({
             message: 'Password should not contain special characters!'
         }
     },
+    // Facebook account details of the user
     facebook: {
         id: String,
         token: String,
         email: String,
         name: String
     },
+    // Google account details of the user
     google: {
         id: String,
         token: String,
         email: String,
         name: String
     },
+    // Instagram details of the user
     instagram: {
         id: String,
         token: String,
