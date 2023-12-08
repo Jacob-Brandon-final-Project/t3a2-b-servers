@@ -13,9 +13,12 @@ const ItemSchema = new Schema({
         required: true
     },
     // Category of the item
-    catgory: {
+    category: {
         type: String,
         required: true,
+    },
+    stockQuantity: {
+        type: number
     },
     // Price of the item
     price: {
@@ -29,4 +32,4 @@ const ItemSchema = new Schema({
     },
 });
 
-module.exports = Item = mogoose.model('item',ItemSchema);
+module.exports = Item = mongoose.model('item',ItemSchema);
