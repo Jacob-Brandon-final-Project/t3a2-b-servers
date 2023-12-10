@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { isEmail } = require('validator');
+const validator = require('validator');
 
 const UserSchema = new Schema({
     // Name of the user
@@ -21,12 +22,11 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: [true, 'Please enter a valid password'],
-        unique: true,
         minlength: [6, 'Minimum password length must be 6 characters'],
         validate: {
             validator: function (value) {
                 let passwordRules = {
-                    minlenth: 6,
+                    minlength: 6,
                     minLowercase: 1,
                     minUppercase: 1,
                     minNumber: 3,
