@@ -1,4 +1,4 @@
-const mongoose = require('mongogoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { isEmail } = require('validator');
 
@@ -6,7 +6,8 @@ const UserSchema = new Schema({
     // Name of the user
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     // Email of the user
     email: {
@@ -20,37 +21,43 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: [true, 'Please enter a valid password'],
+        unique: true,
         minlength: [6, 'Minimum password length must be 6 characters'],
-        maxlength: [15, 'Maximum password length must be 15 characters'],
         validate: {
-            validator: function(v) {
-                // Reqular expression to check if password contains only alphanumeric characters
-                return /^[a-zA-Z0-9]+$/.test(v);
+            validator: function (value) {
+                let passwordRules = {
+                    minlenth: 6,
+                    minLowercase: 1,
+                    minUppercase: 1,
+                    minNumber: 3,
+                    minSymbols: 2
+                };
+                return validator.isStrongPassword(value, passwordRules);
             },
-            message: 'Password should not contain special characters!'
+            message: props => `${props.value} does not meet password requirements!!`
+            
         }
     },
     // Facebook account details of the user
     facebook: {
         id: String,
-        token: String,
         email: String,
         name: String
     },
     // Google account details of the user
     google: {
         id: String,
-        token: String,
         email: String,
         name: String
     },
     // Instagram details of the user
     instagram: {
         id: String,
-        token: String,
         username: String
     }
 
 });
+
+
 
 module.exports = mongoose.model('User', UserSchema);
