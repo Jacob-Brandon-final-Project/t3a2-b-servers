@@ -7,7 +7,18 @@ const getAllCarts = async (req, res) => {
         const resonse = await axios.get('https://localhost:3000/carts');
         res.json(response.data);
     } catch (error) {
-        res.status(500).json({ error: 'Internal server error'})
+        res.status(500).json({ error: 'Internal server error'});
+    }
+};
+
+// Get a specific cart by ID
+const getCartById = async (req, res) => {
+    const { cartId } = req.params;
+    try {
+        const response = await axios.get('https://localhost:3000/carts/${cartId}');
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error'});
     }
 };
 
@@ -20,4 +31,29 @@ const createCart = async (req, res) => {
     } catch (error) {
         res.staus(500).json({ error: 'Internal server error'});
     }
-}
+};
+
+// Update a cart
+const updateCart = async (req, res) => {
+    const { cartId } = req.params;
+    const { items } = req.body;
+    try {
+        const response = await axios.put('https://localhost:3000/carts/${cartId}', { items });
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error'});
+    }
+};
+
+// Delete a cart
+const deleteCart = async (req, res) => {
+    const { cartId } = req.params;
+    try {
+        const response= await axios.delete('https://localhost:3000/carts/${cartId');
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error'});
+    };
+};
+
+module.exports = { getAllCarts, getCartById, createCart, updateCart, deleteCart}
