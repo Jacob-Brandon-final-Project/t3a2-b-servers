@@ -2,6 +2,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const cartRoutes = require('./routes/CartRoutes')
 
 // make server insatnce
 const app = express();
@@ -11,6 +12,8 @@ app.use(express.json());
 
 // Enalbes CORS for all routes
 app.use(cors());
+
+app.use('/cart', cartRoutes);
 
 app.get("/", (request, response) => {
     response.json({
