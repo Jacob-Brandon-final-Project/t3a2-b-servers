@@ -21,6 +21,7 @@ app.get("/", (request, response) => {
     });
 });
 
+
 const userController = require('./controllers/UserController');
 app.use("/users", userController);
 
