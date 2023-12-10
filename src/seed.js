@@ -20,5 +20,5 @@ databaseConnect().then(async() => {
     })
 
     await newPerson.save().then(() =>
-    console.log("Mick is in the DB!!"))
-})
+    console.log("Mick is in the DB!!"));
+});
