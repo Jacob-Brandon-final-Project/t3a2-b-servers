@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const { isEmail } = require('validator');
+
 const validator = require('validator');
 
-const UserSchema = new Schema({
+const bcrypt = require('bcryptjs')
+
+
+
+const UserSchema = new mongoose.Schema({
     // Name of the user
     name: {
         type: String,
@@ -57,7 +62,24 @@ const UserSchema = new Schema({
     }
 
 });
+// Use instance.save
+//to trigger this pre-hook
+UserSchema.pre(
+    'save',
+    async function (next) {
+        const user = this;
+        // If password wasn't changed to plaintext, skip next function
+        if (!user.isModified('password')) return next();
+        // If password was changed, assume it was changed to plaintext and hash it
+        const hash = await bcrypt.hash(this.password, 10);
+        this.password = hash;
+        next();
+    }
+);
+
+const User = mongoose.model('User', UserSchema);
 
 
-
+module.exports = { User }
 module.exports = mongoose.model('User', UserSchema);
+
