@@ -1,13 +1,13 @@
 // import Express library
 const express = require('express');
-const { User } = require('../models/UserModel');
+const User = require('../models/UserModel');
 
 // make an instance of a Router
 const router = express.Router();
 
 // customise the router instance
 
-// GET localhost:3000/users/
+// GET localhost:5000/users/
 // Expect a response of ALL users in DB:
 
 /*
@@ -28,13 +28,25 @@ router.get("/", async (request, response) => {
     response.json({result});
 })
 
-// GET localhost:3000/users/id
+// GET localhost:5000/users/:id
+// Retrieve a user with a specified id
 router.get("/:id", async (request, response) => {
+    try {
+        let userId = request.params.id;
+        let user = await User.findById(userId);
 
-})
+        if (!user) {
+            response.status(404).json({ message: "User not found" });
+        } else {
+            response.json(user);
+        }
+    } catch (error) {
+        response.status(500).json({ message: "Error retrieving user"});
+    }
+});
 
 
-// POST localhost:3000/users/
+// POST localhost:5000/users/
 router.post("/", async (request, response) => {
     let newUser = await User.create(request.body).catch(error => error);
 
