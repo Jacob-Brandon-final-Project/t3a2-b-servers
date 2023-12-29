@@ -2,7 +2,8 @@
 
 const express = require('express');
 const cors = require('cors');
-const cartRoutes = require('./routes/CartRoutes')
+const cartRoutes = require('./routes/CartRoutes');
+const authRoutes = require('./routes/AuthRoutes');
 
 // make server insatnce
 const app = express();
@@ -15,6 +16,9 @@ app.use(cors());
 
 app.use('/cart', cartRoutes);
 
+// Register auth routes
+app.use('/user', authRoutes)
+
 app.get("/", (request, response) => {
     response.json({
         message:"Hello welcome to the backend code of the project"
@@ -22,9 +26,4 @@ app.get("/", (request, response) => {
 });
 
 
-const userController = require('./controllers/UserController');
-app.use("/users", userController);
-
-module.exports = {
-    app
-}
+module.exports = { app };
