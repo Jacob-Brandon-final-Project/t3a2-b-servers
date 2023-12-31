@@ -1,11 +1,19 @@
 // server configuration happens in server.js
 
 const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 const cors = require('cors');
-const cartRoutes = require('./routes/CartRoutes')
+const cartRoutes = require('./routes/CartRoutes');
+const userController = require('./controllers/UserController');
+const productController = require('./controllers/productController');
 
 // make server insatnce
 const app = express();
+
+
+// Connect to MongoDB
+mongoose.connect(process.env.DB_URI);
 
 // Enables request.body to be raw JSON
 app.use(express.json());
@@ -14,6 +22,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/cart', cartRoutes);
+app.use('/users', userController);
+app.use('/products', productController);
 
 app.get("/", (request, response) => {
     response.json({
@@ -21,9 +31,12 @@ app.get("/", (request, response) => {
     });
 });
 
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
-const userController = require('./controllers/UserController');
-app.use("/users", userController);
+
 
 module.exports = {
     app
