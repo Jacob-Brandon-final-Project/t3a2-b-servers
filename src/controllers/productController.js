@@ -33,7 +33,8 @@ router.post('/create', async (req, res) => {
         name: req.body.name,
         description: req.body.description,
         stockQuantity: req.body.stockQuantity,
-        price: req.body.price
+        price: req.body.price,
+        category: req.body.category
     });
     // Log product._id after the object is created:
     console.log(product._id);

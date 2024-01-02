@@ -13,7 +13,15 @@ const app = express();
 
 
 // Connect to MongoDB
-mongoose.connect(process.env.DB_URI);
+mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
+// Check for database connection errors
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+// Check for successful database connection
+mongoose.connection.once('open', () => {
+    console.log('Connected to MongoDB database');
+});
 
 // Enables request.body to be raw JSON
 app.use(express.json());
