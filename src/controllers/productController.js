@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
 const Product = require('../models/productModels');
 
@@ -28,17 +29,19 @@ router.post('/create', async (req, res) => {
     console.log(req.body);
 
     const product = new Product({
+        _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         description: req.body.description,
         stockQuantity: req.body.stockQuantity,
         price: req.body.price
     });
+    // Log product._id after the object is created:
+    console.log(product._id);
+    
 
     try {
         const newProduct = await product.save();
-        // Format the newProduct JSON onject for display
-        const formattedProduct = JSON.stringify(newProduct, null, 2);
-        res.status(201).send(formattedProduct);
+        res.status(201).json(newProduct);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
