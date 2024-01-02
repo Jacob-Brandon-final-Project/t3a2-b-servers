@@ -30,7 +30,7 @@ router.get("/", async (request, response) => {
 
 // GET localhost:5000/users/:id
 // Retrieve a user with a specified id
-router.get("/:id", async (request, response) => {
+router.get("/users/:id", async (request, response) => {
     try {
         let userId = request.params.id;
         let user = await User.findById(userId);
@@ -52,6 +52,25 @@ router.post("/", async (request, response) => {
 
     response.json(newUser);
 })
+
+// Delete User Route
+// Delete user by id
+router.delete("/:id", async (request, response) => {
+    try {
+        let userId = request.params.id;
+        let deletedUser = await User.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            response.status({ message: "User not found" });
+        } else {
+            response.json({ message: "User deleted sucessfully", user: deletedUser });
+        }
+    } catch (error) {
+        response.status(500).json({ message: "Error deleting user", error: error.message});
+    }
+});
+
+
 
 // POST localhost:3000/users/login
 // request.body = {username: "Admin", password: "somePassword"}
