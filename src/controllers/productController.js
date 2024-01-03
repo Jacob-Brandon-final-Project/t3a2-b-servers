@@ -17,12 +17,16 @@ router.get('/AllItems', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         const product = await Product.findById(req.params.id);
-        res.json(res.product);
-    } catch (error) {
-        res.status(500).json({ message: error.message })
+        if (product) {
+            res.json(product);
+        } else {
+            res.status(404).json({ message: 'Product not Found' })
+        }
+    }catch (error) {
+        res.status(500).json({ message: error.message });
     }
-    
 });
+
 
 // Create a product
 router.post('/create', async (req, res) => {
