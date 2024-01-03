@@ -8,21 +8,23 @@ const bcrypt = require('bcryptjs')
 
 
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     // Name of the user
-    name: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    // Email of the user
-    email: {
-        type: String,
-        required: [true, 'Please enter an email'],
-        unique: true,
-        lowercase: true,
-        validate: [isEmail, 'Please enter a valid email']
-    },
+    
+        firstName: String,
+        lastName: String,
+        email: {
+            type: String,
+            unique: true,
+            required: [true, 'Please enter an email'],
+        
+            lowercase: true,
+            validate: [isEmail, 'Please enter a valid email']
+        },
+   
+   
+        
+            
     // Password of the user
     password: {
         type: String,
@@ -41,8 +43,11 @@ const UserSchema = new mongoose.Schema({
             },
             message: props => `${props.value} does not meet password requirements!!`
             
-        }
+        },
+        confirmPassword: String
     },
+    
+
     // Facebook account details of the user
     facebook: {
         id: String,
@@ -64,7 +69,7 @@ const UserSchema = new mongoose.Schema({
 });
 // Use instance.save
 //to trigger this pre-hook
-UserSchema.pre(
+userSchema.pre(
     'save',
     async function (next) {
         const user = this;
@@ -81,5 +86,5 @@ UserSchema.pre(
 
 
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('user', userSchema);
 
