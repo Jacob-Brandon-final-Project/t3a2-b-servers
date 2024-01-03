@@ -7,6 +7,7 @@ const cors = require('cors');
 const cartRoutes = require('./routes/CartRoutes');
 const userController = require('./controllers/UserController');
 const productController = require('./controllers/productController');
+const searchRoutes = require('./controllers/searchRoutes');
 
 // make server insatnce
 const app = express();
@@ -32,6 +33,7 @@ app.use(cors());
 app.use('/cart', cartRoutes);
 app.use('/users', userController);
 app.use('/products', productController);
+app.use('/search', searchRoutes);
 
 app.get("/product", async (request, response) => {
     const data = await productModels.find({})
