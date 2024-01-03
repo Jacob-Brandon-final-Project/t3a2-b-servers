@@ -33,9 +33,52 @@ app.use('/cart', cartRoutes);
 app.use('/users', userController);
 app.use('/products', productController);
 
+app.get("/product", async (request, response) => {
+    const data = await productModels.find({})
+    response.send(JSON.stringify(data))
+});
+
 app.get("/", (request, response) => {
     response.json({
         message:"Hello welcome to the backend code of the project"
+    });
+});
+
+// sign up
+app.post("/signup", async (request, response) => {
+    const { email } = request.body;
+
+    userModels.findOne({ email: email }, (err, result) => {
+        console.log(err);
+        if (result) {
+            response.send ({message: "Email id is already registered!", alert: false });
+        } else {
+            const data = userModels(req.body);
+            const save = data.save();
+            response.send({ message: "Successfully sign up", alert: true });
+        }
+    });
+});
+
+//log-in
+app.post("/login", (request, response) => {
+    console.log(req.body)
+    const {email} = request.body;
+    userModels.findOne({ email: email}, (err, result) => {
+        if (result) {
+            const dataSend = {
+                _id: result._id,
+                firstName: result.firstName,
+                lastName: result.lastName,
+                email: result.email,
+            };
+            response.send({message : "Login is successfull!", alert: true, data: dataSend});
+            console.log(dataSend);
+            response.send({
+                message: "Email is not available. Please sign up!",
+                alert: false,
+            });
+        }
     });
 });
 
