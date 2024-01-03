@@ -30,6 +30,11 @@ const ProductSchema = new Schema({
         type: String,
         required: true,
         enum: ['NBA', 'DBZ', 'Magic']
+    },
+    // image of item
+    image: {
+        type: String,
+        required: true
     }
 });
 

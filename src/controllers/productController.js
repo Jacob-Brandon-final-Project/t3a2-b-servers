@@ -48,6 +48,20 @@ router.post('/create', async (req, res) => {
     }
 });
 
+router.patch('/:id', async (req, res) => {
+    try {
+        const updatedProduct = await Product.findOneAndUpdate(
+            {_id: req.params.id },
+            { $set: req.body },
+            { new: true }
+        ).exec();
+        res.json(updatedProduct);
+    } catch (error) {
+        console.error(error);
+        res.status(400).json({ message: error.message });
+    }
+});
+
 router.delete('/:id', async (req, res) => {
     try {
         const product = await Product.findOne({ _id: req.params.id });
